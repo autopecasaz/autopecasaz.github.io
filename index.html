@@ -340,11 +340,11 @@
         
         <div class="upload-area" onclick="document.getElementById('fileImagem').click()">
           <p>📁 Selecione uma imagem do computador</p>
-          <small>A imagem será enviada para o Imgur e ficará disponível em todos os dispositivos</small>
+          <small>Formatos: JPG, PNG, GIF (até 5MB)</small>
           <input type="file" id="fileImagem" accept="image/*" style="display: none;" onchange="previewImagemAdmin(this)">
         </div>
         
-        <div id="uploadStatus" class="loading" style="display: none;">Enviando imagem...</div>
+        <div id="uploadStatus" class="loading" style="display: none;">Convertendo imagem...</div>
         <img id="previewAdmin" class="preview-img" src="#" alt="Preview">
         
         <button type="submit" class="btn-salvar" id="btnSalvar">
@@ -361,9 +361,6 @@
 </div>
 
 <script>
-  // Chave do Imgur (gratuita para testes)
-  const IMGUR_CLIENT_ID = 'c74969bda9e480c';
-  
   // Todos os 10 produtos originais
   let pecas = JSON.parse(localStorage.getItem('pecas')) || [
     { 
@@ -430,27 +427,6 @@
 
   const whatsappNumero = "5511921474407";
 
-  // Função para fazer upload para o Imgur
-  async function uploadParaImgur(file) {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    const response = await fetch('https://api.imgur.com/3/image', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Client-ID ${IMGUR_CLIENT_ID}`
-      },
-      body: formData
-    });
-
-    const data = await response.json();
-    if (data.success) {
-      return data.data.link; // Retorna a URL da imagem no Imgur
-    } else {
-      throw new Error('Erro ao fazer upload');
-    }
-  }
-
   function atualizarGridPecas() {
     const grid = document.getElementById('pecas-grid');
     if (!grid) return;
@@ -463,7 +439,6 @@
       const imagemDiv = document.createElement('div');
       imagemDiv.className = 'peca-img';
       
-      // Usar a imagem do Imgur ou a original
       const imagemUrl = item.imagem || 'https://via.placeholder.com/300x200?text=Sem+Imagem';
       imagemDiv.style.backgroundImage = `url('${imagemUrl}')`;
 
@@ -568,17 +543,23 @@
     
     let imagemUrl = '';
     
-    // Se tiver uma nova imagem, faz upload para o Imgur
+    // Se tiver uma nova imagem, converte para Base64
     if (fileInput.files && fileInput.files[0]) {
       try {
         uploadStatus.style.display = 'block';
         btnSalvar.disabled = true;
         
-        imagemUrl = await uploadParaImgur(fileInput.files[0]);
+        // Converter imagem para Base64
+        imagemUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(fileInput.files[0]);
+        });
         
         uploadStatus.style.display = 'none';
       } catch (error) {
-        alert('Erro ao fazer upload da imagem. Tente novamente.');
+        alert('Erro ao processar a imagem. Tente novamente.');
         uploadStatus.style.display = 'none';
         btnSalvar.disabled = false;
         return;
