@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desmanche AZ Acessórios · Peças Automotivas</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+    body { background: #f5f5f5; color: #222; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+
+    .header-desmanche { background: #213F99; color: white; padding: 12px 0; border-bottom: 4px solid #FFCB04; }
+    .header-content { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+    .logo-area { display: flex; align-items: center; gap: 15px; }
+    .logo-area h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.5px; line-height: 1; }
+    .logo-area span { font-size: 0.9rem; font-weight: 400; opacity: 0.9; display: block; }
+    .atendimento-rapido { background: #FFCB04; color: #213F99; padding: 8px 20px; border-radius: 40px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; border: 2px solid #213F99; transition: 0.2s; }
+    .atendimento-rapido:hover { background: #fff; color: #213F99; }
+
+    .banner-contato { background: #e8f0fe; border-radius: 20px; margin: 30px auto; padding: 30px 20px; text-align: center; border: 2px dashed #213F99; }
+    .banner-contato p { font-size: 2rem; font-weight: 700; color: #213F99; margin-bottom: 20px; }
+    .botao-wzao { background: #25D366; color: white; font-size: 1.8rem; font-weight: bold; padding: 20px 50px; border-radius: 60px; text-decoration: none; display: inline-block; border: 4px solid #213F99; box-shadow: 0 8px 0 #075e54; transition: 0.1s ease; }
+    .botao-wzao:hover { transform: translateY(4px); box-shadow: 0 4px 0 #075e54; }
+
+    .vitrine-titulo { font-size: 2rem; font-weight: 700; color: #213F99; border-left: 12px solid #FFCB04; padding-left: 20px; margin: 50px 0 30px; }
+    .pecas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+    .peca-card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: 0.2s; border: 1px solid #ddd; }
+    .peca-card:hover { transform: scale(1.02); border-color: #FFCB04; }
+    .peca-img { 
+      width: 100%; 
+      height: 200px; 
+      background-size: cover; 
+      background-position: center; 
+      background-repeat: no-repeat; 
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .peca-img .icone-grande {
+      font-size: 5rem;
+      color: white;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.3);
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(2px);
+    }
+    .peca-img span { 
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(33, 63, 153, 0.9);
+      color: #FFCB04;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 2px solid #FFCB04;
+    }
+    .peca-info { padding: 20px; }
+    .peca-nome { font-weight: 700; font-size: 1.2rem; min-height: 3.5rem; color: #213F99; }
+    .peca-preco { font-size: 1.5rem; font-weight: 800; color: #2b7a2b; margin: 10px 0 5px; }
+    .peca-desc { color: #555; font-size: 0.9rem; margin-bottom: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 15px; }
+    .botao-wpp-card { display: block; background: #25D366; color: white; text-align: center; padding: 14px; border-radius: 30px; text-decoration: none; font-weight: 700; border: 2px solid #075e54; transition: 0.15s; margin-top: 5px; }
+    .botao-wpp-card:hover { background: #128C7E; }
+
+    .footer-simples { background: #213F99; color: white; text-align: center; padding: 30px; margin-top: 60px; border-top: 5px solid #FFCB04; }
+    .footer-simples a { color: #FFCB04; font-weight: 600; text-decoration: none; }
+
+    .whats-float { position: fixed; bottom: 30px; right: 30px; background: #25D366; width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.3); z-index: 99; border: 4px solid white; transition: 0.2s; }
+    .whats-float:hover { transform: scale(1.1); background: #128C7E; }
+    .whats-float svg { width: 40px; height: 40px; fill: white; }
+
+    /* Cores de fundo para cada tipo de peça */
+    .bg-motor { background: linear-gradient(135deg, #2c3e50, #3498db); }
+    .bg-cambio { background: linear-gradient(135deg, #34495e, #7f8c8d); }
+    .bg-farol { background: linear-gradient(135deg, #f39c12, #e67e22); }
+    .bg-porta { background: linear-gradient(135deg, #16a085, #27ae60); }
+    .bg-radiador { background: linear-gradient(135deg, #c0392b, #e74c3c); }
+    .bg-roda { background: linear-gradient(135deg, #8e44ad, #9b59b6); }
+    .bg-banco { background: linear-gradient(135deg, #d35400, #e67e22); }
+    .bg-eixo { background: linear-gradient(135deg, #7f8c8d, #95a5a6); }
+    .bg-turbo { background: linear-gradient(135deg, #bdc3c7, #ecf0f1); }
+    .bg-alternador { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome para ícones adicionais -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<header class="header-desmanche">
+  <div class="container header-content">
+    <div class="logo-area">
+      <h1>⚙️ DESMANCHE<br><span>AZ Acessórios</span></h1>
+    </div>
+    <a class="atendimento-rapido" href="https://wa.me/5511921474407?text=Olá!%20Acessei%20o%20site%20do%20Desmanche%20AZ%20e%20gostaria%20de%20um%20atendimento." target="_blank">
+      📞 (11) 92147-4407 · ATENDIMENTO
+    </a>
+  </div>
+</header>
+
+<main class="container">
+  
+  <div class="banner-contato">
+    <p>🚨 NÃO ENCONTROU O QUE PRECISA?<br>ENTRE EM CONTATO!</p>
+    <a class="botao-wzao" href="https://wa.me/5511921474407?text=Olá!%20Preciso%20de%20uma%20peça%20que%20não%20vi%20no%20site%20do%20Desmanche%20AZ." target="_blank">
+      👉 CHAME NO WHATSAPP 👈
+    </a>
+  </div>
+
+  <h2 class="vitrine-titulo">🔩 PEÇAS EM DESTAQUE (DESMANCHE)</h2>
+  <div class="pecas-grid" id="pecas-grid">
+    <!-- cards serão gerados aqui -->
+  </div>
+
+  <div style="background: #fff3cd; padding: 25px; border-radius: 40px; margin: 50px 0; text-align: center; border: 2px solid #213F99;">
+    <p style="font-size: 1.4rem; font-weight: 600;">🚛 Fazemos envio para todo Brasil · Consulte condições via WhatsApp</p>
+    <a href="https://wa.me/5511921474407?text=Olá!%20Quero%20saber%20sobre%20envio%20de%20peças" style="background: #213F99; color: white; padding: 12px 40px; border-radius: 40px; text-decoration: none; display: inline-block; margin-top: 15px; font-weight: 700;">PERGUNTAR SOBRE FRETE</a>
+  </div>
+</main>
+
+<footer class="footer-simples">
+  <p>⚙️ Desmanche AZ Acessórios · Peças automotivas de procedência</p>
+  <p>📞 WhatsApp <strong>(11) 92147-4407</strong> · Atendimento rápido</p>
+  <p style="margin-top: 20px;">© 2025 Desmanche AZ · Todos os direitos reservados</p>
+</footer>
+
+<a class="whats-float" href="https://wa.me/5511921474407?text=Olá%2C%20vim%20do%20site%20Desmanche%20AZ%20e%20preciso%20de%20ajuda." target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.93.57 3.8 1.64 5.4L2.05 22l4.88-1.61a9.92 9.92 0 0 0 5.11 1.4c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.26c-1.46 0-2.89-.4-4.15-1.16l-.3-.18-2.98.98 1-2.87-.2-.32a8.16 8.16 0 0 1-1.26-4.4c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.69 8.24-8.24 8.24z"/><path d="M13.16 12.66c-.27-.13-.93-.45-1.07-.5-.14-.06-.24-.09-.34.09-.1.18-.4.5-.49.6-.09.1-.18.11-.34.04-.16-.07-.68-.25-1.3-.8-.48-.42-.8-.94-.9-1.1-.09-.16-.01-.25.07-.33.08-.08.18-.2.27-.3.09-.1.12-.18.18-.3.06-.12.03-.22-.02-.32-.05-.1-.44-1.07-.61-1.47-.16-.39-.33-.34-.45-.35h-.38c-.12 0-.3.04-.46.2-.16.16-.6.58-.6 1.42 0 .84.6 1.65.69 1.76.09.12 1.2 1.84 2.91 2.58.4.18.72.29.96.37.4.12.77.1 1.06.06.32-.04 1-.41 1.14-.8.14-.4.14-.74.1-.8-.04-.07-.14-.11-.27-.18z"/></svg>
+</a>
+
+<script>
+  const pecas = [
+    { 
+      nome: "Motor 1.0 8v GM (completo)", 
+      descricao: "Motor Família 1 usado, testado, ano 2014/2015. Acompanha volante e embreagem.", 
+      preco: "R$ 2.490,00",
+      bgClass: "bg-motor",
+      icone: "fa-solid fa-engine",
+      iconeEmoji: "🔧",
+      iconeGrande: "⚙️"
+    },
+    { 
+      nome: "Câmbio Fiat Palio 5 marchas", 
+      descricao: "Câmbio 5 velocidades, km baixa, troca suave. Para motor 1.0 / 1.4.", 
+      preco: "R$ 980,00",
+      bgClass: "bg-cambio",
+      icone: "fa-solid fa-gears",
+      iconeEmoji: "⚙️",
+      iconeGrande: "⚙️"
+    },
+    { 
+      nome: "Par de faróis Gol G5 (dianteiro)", 
+      descricao: "Faróis completos, cristal, sem trincos. Soquete H4 funcionando.", 
+      preco: "R$ 320,00",
+      bgClass: "bg-farol",
+      icone: "fa-regular fa-lightbulb",
+      iconeEmoji: "💡",
+      iconeGrande: "💡"
+    },
+    { 
+      nome: "Porta dianteira esquerda VW Fox", 
+      descricao: "Cor azul, completa com maçaneta, vidro e mecanismo. Bom estado.", 
+      preco: "R$ 650,00",
+      bgClass: "bg-porta",
+      icone: "fa-solid fa-car-side",
+      iconeEmoji: "🚪",
+      iconeGrande: "🚗"
+    },
+    { 
+      nome: "Radiador Chevrolet Onix 1.4", 
+      descricao: "Radiador original, sem vazamentos, limpo. Ano 2013 a 2018.", 
+      preco: "R$ 280,00",
+      bgClass: "bg-radiador",
+      icone: "fa-solid fa-fan",
+      iconeEmoji: "🌡️",
+      iconeGrande: "❄️"
+    },
+    { 
+      nome: "Conjunto de rodas aro 15 (4 unidades)", 
+      descricao: "Rodas de liga leve Ford Fiesta, pneus 195/55 com 60% de vida.", 
+      preco: "R$ 1.120,00",
+      bgClass: "bg-roda",
+      icone: "fa-solid fa-circle",
+      iconeEmoji: "🛞",
+      iconeGrande: "⭕"
+    },
+    { 
+      nome: "Banco traseiro completo Honda Civic", 
+      descricao: "Banco traseiro inteiro, tecido bege, sem rasgos. Ano 2012.", 
+      preco: "R$ 890,00",
+      bgClass: "bg-banco",
+      icone: "fa-solid fa-chair",
+      iconeEmoji: "💺",
+      iconeGrande: "🪑"
+    },
+    { 
+      nome: "Eixo traseiro com tambores Fiat Uno", 
+      descricao: "Eixo completo, cubos e freio em bom estado. Usado mas retificado.", 
+      preco: "R$ 750,00",
+      bgClass: "bg-eixo",
+      icone: "fa-solid fa-bolt",
+      iconeEmoji: "🔩",
+      iconeGrande: "⚙️"
+    },
+    { 
+      nome: "Turbo original VW Saveiro 1.6 TDI", 
+      descricao: "Turbo recondicionado, pouco uso, funciona perfeitamente.", 
+      preco: "R$ 1.350,00",
+      bgClass: "bg-turbo",
+      icone: "fa-solid fa-wind",
+      iconeEmoji: "⚡",
+      iconeGrande: "💨"
+    },
+    { 
+      nome: "Alternador 120A Chevrolet S10", 
+      descricao: "Alternador 12V, testado, carga forte. Diesel ou flex.", 
+      preco: "R$ 430,00",
+      bgClass: "bg-alternador",
+      icone: "fa-solid fa-bolt",
+      iconeEmoji: "🔋",
+      iconeGrande: "⚡"
+    }
+  ];
+
+  const whatsappNumero = "5511921474407";
+
+  function gerarLinkWhats(texto) {
+    return `https://wa.me/${whatsappNumero}?text=${encodeURIComponent(texto)}`;
+  }
+
+  const grid = document.getElementById('pecas-grid');
+  if (grid) {
+    pecas.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'peca-card';
+
+      const imagemDiv = document.createElement('div');
+      imagemDiv.className = `peca-img ${item.bgClass}`;
+      
+      // Ícone grande centralizado
+      const iconeGrande = document.createElement('div');
+      iconeGrande.className = 'icone-grande';
+      iconeGrande.innerHTML = item.iconeGrande;
+      imagemDiv.appendChild(iconeGrande);
+      
+      // Tag com ícone e nome da peça
+      const span = document.createElement('span');
+      span.innerHTML = `${item.iconeEmoji} ${item.nome.split(' ')[0]}`;
+      imagemDiv.appendChild(span);
+
+      const info = document.createElement('div');
+      info.className = 'peca-info';
+
+      const nome = document.createElement('div');
+      nome.className = 'peca-nome';
+      nome.innerHTML = `<i class="${item.icone}" style="margin-right: 8px; color: #213F99;"></i>${item.nome}`;
+
+      const preco = document.createElement('div');
+      preco.className = 'peca-preco';
+      preco.innerText = item.preco;
+
+      const desc = document.createElement('div');
+      desc.className = 'peca-desc';
+      desc.innerText = item.descricao;
+
+      const botao = document.createElement('a');
+      botao.className = 'botao-wpp-card';
+      botao.target = '_blank';
+
+      const mensagem = `Olá! Tenho interesse na peça: *${item.nome}* (${item.preco}). Descrição: ${item.descricao}. Ainda está disponível?`;
+      botao.href = gerarLinkWhats(mensagem);
+      botao.innerHTML = '<i class="fa-brands fa-whatsapp" style="margin-right: 8px;"></i> COMPRAR · CHAMAR NO WHATS';
+
+      info.appendChild(nome);
+      info.appendChild(preco);
+      info.appendChild(desc);
+      info.appendChild(botao);
+      card.appendChild(imagemDiv);
+      card.appendChild(info);
+      grid.appendChild(card);
+    });
+  }
+</script>
+</body>
+</html>
