@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Desmanche AZ Acessórios · Peças Automotivas</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
@@ -29,21 +29,10 @@
     .peca-img { 
       width: 100%; 
       height: 200px; 
-      background-color: #f0f0f0; 
+      background-color: #213F99; 
       background-size: cover; 
       background-position: center; 
       background-repeat: no-repeat;
-      position: relative;
-    }
-    .peca-img::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(33, 63, 153, 0.1);
-      pointer-events: none;
     }
     .peca-info { padding: 20px; }
     .peca-nome { font-weight: 700; font-size: 1.2rem; min-height: 3.5rem; color: #213F99; }
@@ -59,15 +48,34 @@
     .whats-float:hover { transform: scale(1.1); background: #128C7E; }
     .whats-float svg { width: 40px; height: 40px; fill: white; }
 
-    /* Área Admin no rodapé */
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #213F99;
+    }
+    .loading::after {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-left: 10px;
+      border: 3px solid #213F99;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Área Admin */
     .admin-rodape { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); }
     .admin-toggle { color: rgba(255,255,255,0.5); font-size: 0.8rem; cursor: pointer; display: inline-block; transition: 0.3s; }
     .admin-toggle:hover { color: #FFCB04; }
     .admin-login { display: none; max-width: 300px; margin: 15px auto 0; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px; }
     .admin-login input { width: 100%; padding: 10px; margin: 8px 0; border: none; border-radius: 5px; background: #f0f0f0; }
-    .admin-login input::placeholder { color: #999; }
-    .admin-login button { background: #FFCB04; color: #213F99; border: none; padding: 10px 20px; border-radius: 5px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; }
-    .admin-login button:hover { background: #e6b800; }
+    .admin-login button { background: #FFCB04; color: #213F99; border: none; padding: 10px 20px; border-radius: 5px; font-weight: 700; cursor: pointer; width: 100%; }
     .admin-login.ativo { display: block; }
     .erro-login { color: #ff6b6b; font-size: 0.8rem; margin-top: 5px; display: none; }
 
@@ -83,9 +91,7 @@
       overflow-y: auto;
       display: none;
     }
-    .admin-panel-container.ativo {
-      display: block;
-    }
+    .admin-panel-container.ativo { display: block; }
     .admin-header {
       background: #213F99;
       color: white;
@@ -97,12 +103,7 @@
       top: 0;
       z-index: 100;
     }
-    .admin-header h2 {
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .admin-header h2 { font-size: 1.5rem; }
     .admin-header button {
       background: #dc3545;
       color: white;
@@ -111,7 +112,6 @@
       border-radius: 5px;
       cursor: pointer;
       font-weight: 700;
-      font-size: 1rem;
     }
     .admin-content {
       display: grid;
@@ -119,14 +119,12 @@
       gap: 20px;
       padding: 20px;
       background: #f5f5f5;
-      min-height: calc(100vh - 80px);
     }
     .form-card {
       background: white;
       padding: 25px;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      height: fit-content;
     }
     .form-card h3 {
       color: #213F99;
@@ -134,9 +132,7 @@
       border-bottom: 2px solid #FFCB04;
       padding-bottom: 10px;
     }
-    .form-group {
-      margin-bottom: 15px;
-    }
+    .form-group { margin-bottom: 15px; }
     .form-group label {
       display: block;
       margin-bottom: 5px;
@@ -150,7 +146,6 @@
       border: 2px solid #ddd;
       border-radius: 5px;
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.9rem;
     }
     .form-group input:focus,
     .form-group textarea:focus {
@@ -166,9 +161,7 @@
       margin: 15px 0;
       background: #f8f9ff;
     }
-    .upload-area:hover {
-      background: #e8ecff;
-    }
+    .upload-area:hover { background: #e8ecff; }
     .preview-img {
       max-width: 100%;
       max-height: 150px;
@@ -187,11 +180,8 @@
       cursor: pointer;
       width: 100%;
       font-size: 1rem;
-      margin-top: 10px;
     }
-    .btn-salvar:hover {
-      background: #218838;
-    }
+    .btn-salvar:hover { background: #218838; }
     .pecas-lista {
       background: white;
       padding: 25px;
@@ -214,9 +204,7 @@
       padding: 15px;
       border-bottom: 1px solid #eee;
     }
-    .peca-item-admin:hover {
-      background: #f8f9ff;
-    }
+    .peca-item-admin:hover { background: #f8f9ff; }
     .peca-item-admin img {
       width: 70px;
       height: 70px;
@@ -228,10 +216,6 @@
       color: #213F99;
       margin-bottom: 5px;
     }
-    .peca-item-admin .info p {
-      font-size: 0.8rem;
-      color: #666;
-    }
     .btn-editar {
       background: #FFCB04;
       color: #213F99;
@@ -240,7 +224,6 @@
       border-radius: 5px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.9rem;
     }
     .btn-excluir {
       background: #dc3545;
@@ -250,10 +233,7 @@
       border-radius: 5px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.9rem;
     }
-    .btn-editar:hover { background: #e6b800; }
-    .btn-excluir:hover { background: #c82333; }
     .voltar-site {
       background: #6c757d;
       color: white;
@@ -264,34 +244,12 @@
       font-weight: 600;
       margin-right: 10px;
     }
-    .voltar-site:hover {
-      background: #5a6268;
-    }
 
-    /* Responsividade para mobile */
     @media (max-width: 768px) {
-      .admin-content {
-        grid-template-columns: 1fr;
-      }
-      .peca-item-admin {
-        grid-template-columns: 60px 1fr;
-        gap: 10px;
-      }
-      .peca-item-admin .preco {
-        grid-column: 2;
-      }
-      .peca-item-admin button {
-        grid-column: span 1;
-        width: 100%;
-      }
-      .admin-header {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-      }
-      .admin-header h2 {
-        font-size: 1.2rem;
-      }
+      .admin-content { grid-template-columns: 1fr; }
+      .peca-item-admin { grid-template-columns: 60px 1fr; }
+      .peca-item-admin .preco { grid-column: 2; }
+      .peca-item-admin button { grid-column: span 1; width: 100%; }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -310,7 +268,6 @@
 </header>
 
 <main class="container">
-  
   <div class="banner-contato">
     <p>🚨 NÃO ENCONTROU O QUE PRECISA?<br>ENTRE EM CONTATO!</p>
     <a class="botao-wzao" href="https://wa.me/5511921474407?text=Olá!%20Preciso%20de%20uma%20peça%20que%20não%20vi%20no%20site%20do%20Desmanche%20AZ." target="_blank">
@@ -320,7 +277,7 @@
 
   <h2 class="vitrine-titulo">🔩 PEÇAS EM DESTAQUE (DESMANCHE)</h2>
   <div class="pecas-grid" id="pecas-grid">
-    <!-- cards serão gerados aqui -->
+    <div class="loading">Carregando peças...</div>
   </div>
 
   <div style="background: #fff3cd; padding: 25px; border-radius: 40px; margin: 50px 0; text-align: center; border: 2px solid #213F99;">
@@ -334,13 +291,12 @@
   <p>📞 WhatsApp <strong>(11) 92147-4407</strong> · Atendimento rápido</p>
   <p style="margin-top: 20px;">© 2025 Desmanche AZ · Todos os direitos reservados</p>
   
-  <!-- Área Admin no rodapé -->
   <div class="admin-rodape">
     <div class="admin-toggle" onclick="toggleAdminLogin()">⚙️ Área restrita</div>
     
     <div class="admin-login" id="adminLogin">
-      <input type="text" id="adminUser" placeholder="Digite seu usuário">
-      <input type="password" id="adminPass" placeholder="Digite sua senha">
+      <input type="text" id="adminUser" placeholder="Usuário">
+      <input type="password" id="adminPass" placeholder="Senha">
       <button onclick="fazerLogin()">Acessar Painel</button>
       <div class="erro-login" id="erroLogin">Usuário ou senha incorretos!</div>
     </div>
@@ -356,13 +312,12 @@
   <div class="admin-header">
     <h2>⚙️ Painel Administrativo - Gerenciar Peças</h2>
     <div>
-      <button class="voltar-site" onclick="voltarParaSite()">← Voltar ao Site</button>
+      <button class="voltar-site" onclick="voltarParaSite()">← Voltar</button>
       <button onclick="fecharAdminPanel()">Fechar</button>
     </div>
   </div>
   
   <div class="admin-content">
-    <!-- Formulário -->
     <div class="form-card">
       <h3 id="formTitulo">➕ Adicionar Nova Peça</h3>
       <form id="formPeca" onsubmit="salvarPeca(event)">
@@ -375,7 +330,7 @@
         
         <div class="form-group">
           <label>Descrição:</label>
-          <textarea id="descPeca" rows="3" required placeholder="Descreva a peça, ano, estado..."></textarea>
+          <textarea id="descPeca" rows="3" required placeholder="Descreva a peça..."></textarea>
         </div>
         
         <div class="form-group">
@@ -383,26 +338,21 @@
           <input type="text" id="precoPeca" required placeholder="R$ 0,00">
         </div>
         
-        <div class="form-group">
-          <label>URL da Imagem (opcional):</label>
-          <input type="url" id="urlImagem" placeholder="https://...">
-        </div>
-        
         <div class="upload-area" onclick="document.getElementById('fileImagem').click()">
-          <p>📁 Clique para fazer upload de uma imagem</p>
-          <small>Formatos: JPG, PNG, GIF (até 5MB)</small>
+          <p>📁 Selecione uma imagem do computador</p>
+          <small>A imagem será enviada para o Imgur e ficará disponível em todos os dispositivos</small>
           <input type="file" id="fileImagem" accept="image/*" style="display: none;" onchange="previewImagemAdmin(this)">
         </div>
         
+        <div id="uploadStatus" class="loading" style="display: none;">Enviando imagem...</div>
         <img id="previewAdmin" class="preview-img" src="#" alt="Preview">
         
-        <button type="submit" class="btn-salvar">
+        <button type="submit" class="btn-salvar" id="btnSalvar">
           💾 SALVAR PEÇA
         </button>
       </form>
     </div>
     
-    <!-- Lista de peças -->
     <div class="pecas-lista">
       <h3>📋 Peças Cadastradas</h3>
       <div id="listaPecasAdmin"></div>
@@ -411,7 +361,10 @@
 </div>
 
 <script>
-  // Carregar peças do localStorage ou usar as padrão
+  // Chave do Imgur (gratuita para testes)
+  const IMGUR_CLIENT_ID = 'c74969bda9e480c';
+  
+  // Todos os 10 produtos originais
   let pecas = JSON.parse(localStorage.getItem('pecas')) || [
     { 
       nome: "Motor 1.0 8v GM (completo)", 
@@ -477,11 +430,27 @@
 
   const whatsappNumero = "5511921474407";
 
-  function gerarLinkWhats(texto) {
-    return `https://wa.me/${whatsappNumero}?text=${encodeURIComponent(texto)}`;
+  // Função para fazer upload para o Imgur
+  async function uploadParaImgur(file) {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const response = await fetch('https://api.imgur.com/3/image', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Client-ID ${IMGUR_CLIENT_ID}`
+      },
+      body: formData
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      return data.data.link; // Retorna a URL da imagem no Imgur
+    } else {
+      throw new Error('Erro ao fazer upload');
+    }
   }
 
-  // Função para atualizar o grid de peças no site
   function atualizarGridPecas() {
     const grid = document.getElementById('pecas-grid');
     if (!grid) return;
@@ -494,20 +463,9 @@
       const imagemDiv = document.createElement('div');
       imagemDiv.className = 'peca-img';
       
-      // Garantir que a imagem seja carregada corretamente em qualquer dispositivo
-      if (item.imagem) {
-        // Forçar recarregamento com timestamp para evitar cache
-        const timestamp = new Date().getTime();
-        const imagemUrl = item.imagem.includes('data:image') 
-          ? item.imagem 
-          : item.imagem + (item.imagem.includes('?') ? `&t=${timestamp}` : `?t=${timestamp}`);
-        
-        imagemDiv.style.backgroundImage = `url('${imagemUrl}')`;
-        imagemDiv.style.backgroundColor = '#213F99'; // Cor de fallback
-      } else {
-        imagemDiv.style.backgroundColor = '#213F99';
-        imagemDiv.style.backgroundImage = 'none';
-      }
+      // Usar a imagem do Imgur ou a original
+      const imagemUrl = item.imagem || 'https://via.placeholder.com/300x200?text=Sem+Imagem';
+      imagemDiv.style.backgroundImage = `url('${imagemUrl}')`;
 
       const info = document.createElement('div');
       info.className = 'peca-info';
@@ -527,9 +485,7 @@
       const botao = document.createElement('a');
       botao.className = 'botao-wpp-card';
       botao.target = '_blank';
-
-      const mensagem = `Olá! Tenho interesse na peça: *${item.nome}* (${item.preco}). Descrição: ${item.descricao}. Ainda está disponível?`;
-      botao.href = gerarLinkWhats(mensagem);
+      botao.href = `https://wa.me/${whatsappNumero}?text=${encodeURIComponent(`Olá! Tenho interesse na peça: *${item.nome}* (${item.preco}). Descrição: ${item.descricao}. Ainda está disponível?`)}`;
       botao.innerHTML = '📲 COMPRAR · CHAMAR NO WHATS';
 
       info.appendChild(nome);
@@ -542,7 +498,6 @@
     });
   }
 
-  // Função para atualizar a lista de peças no painel admin
   function atualizarListaAdmin() {
     const lista = document.getElementById('listaPecasAdmin');
     if (!lista) return;
@@ -552,15 +507,13 @@
       const item = document.createElement('div');
       item.className = 'peca-item-admin';
       
-      const imagemSrc = peca.imagem || 'https://via.placeholder.com/70x70?text=Peça';
-      
       item.innerHTML = `
-        <div><img src="${imagemSrc}" onerror="this.src='https://via.placeholder.com/70x70?text=Erro'" style="width:70px;height:70px;object-fit:cover;border-radius:5px;"></div>
+        <div><img src="${peca.imagem || 'https://via.placeholder.com/70x70'}" onerror="this.src='https://via.placeholder.com/70x70'"></div>
         <div class="info">
           <h4>${peca.nome}</h4>
           <p>${peca.descricao.substring(0, 40)}...</p>
         </div>
-        <div class="preco" style="font-weight:700;color:#2b7a2b;">${peca.preco}</div>
+        <div class="preco">${peca.preco}</div>
         <div><button class="btn-editar" onclick="editarPeca(${index})">✏️ Editar</button></div>
         <div><button class="btn-excluir" onclick="excluirPeca(${index})">🗑️ Excluir</button></div>
       `;
@@ -569,29 +522,21 @@
     });
   }
 
-  // Função para editar peça
   window.editarPeca = function(index) {
     const peca = pecas[index];
     document.getElementById('pecaIndex').value = index;
     document.getElementById('nomePeca').value = peca.nome;
     document.getElementById('descPeca').value = peca.descricao;
     document.getElementById('precoPeca').value = peca.preco;
-    document.getElementById('urlImagem').value = peca.imagem || '';
     document.getElementById('formTitulo').innerHTML = '✏️ Editando Peça';
     
     if (peca.imagem) {
       const preview = document.getElementById('previewAdmin');
       preview.src = peca.imagem;
       preview.style.display = 'block';
-    } else {
-      document.getElementById('previewAdmin').style.display = 'none';
     }
-    
-    // Rolar para o formulário
-    document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth' });
   }
 
-  // Função para excluir peça
   window.excluirPeca = function(index) {
     if (confirm('Tem certeza que deseja excluir esta peça?')) {
       pecas.splice(index, 1);
@@ -601,68 +546,73 @@
     }
   }
 
-  // Preview de imagem no admin
   window.previewImagemAdmin = function(input) {
     const preview = document.getElementById('previewAdmin');
     if (input.files && input.files[0]) {
-      // Verificar tamanho do arquivo (limite de 5MB)
-      if (input.files[0].size > 5 * 1024 * 1024) {
-        alert('Arquivo muito grande! Máximo 5MB.');
-        return;
-      }
-      
       const reader = new FileReader();
       reader.onload = function(e) {
         preview.src = e.target.result;
         preview.style.display = 'block';
-        document.getElementById('urlImagem').value = e.target.result;
       }
       reader.readAsDataURL(input.files[0]);
     }
   }
 
-  // Salvar peça (nova ou editada)
-  window.salvarPeca = function(event) {
+  window.salvarPeca = async function(event) {
     event.preventDefault();
     
+    const btnSalvar = document.getElementById('btnSalvar');
+    const uploadStatus = document.getElementById('uploadStatus');
+    const fileInput = document.getElementById('fileImagem');
     const index = document.getElementById('pecaIndex').value;
-    const urlImagem = document.getElementById('urlImagem').value;
     
-    // Usar imagem padrão se nenhuma for fornecida
-    let imagemFinal = urlImagem;
-    if (!imagemFinal) {
-      const nome = document.getElementById('nomePeca').value;
-      imagemFinal = `https://via.placeholder.com/300x200?text=${encodeURIComponent(nome.substring(0, 20))}`;
+    let imagemUrl = '';
+    
+    // Se tiver uma nova imagem, faz upload para o Imgur
+    if (fileInput.files && fileInput.files[0]) {
+      try {
+        uploadStatus.style.display = 'block';
+        btnSalvar.disabled = true;
+        
+        imagemUrl = await uploadParaImgur(fileInput.files[0]);
+        
+        uploadStatus.style.display = 'none';
+      } catch (error) {
+        alert('Erro ao fazer upload da imagem. Tente novamente.');
+        uploadStatus.style.display = 'none';
+        btnSalvar.disabled = false;
+        return;
+      }
+    } else if (index !== '-1' && pecas[index]) {
+      imagemUrl = pecas[index].imagem;
+    } else {
+      imagemUrl = 'https://via.placeholder.com/300x200?text=Sem+Imagem';
     }
     
     const pecaData = {
       nome: document.getElementById('nomePeca').value,
       descricao: document.getElementById('descPeca').value,
       preco: document.getElementById('precoPeca').value,
-      imagem: imagemFinal
+      imagem: imagemUrl
     };
     
     if (index === '-1') {
-      // Nova peça
       pecas.push(pecaData);
-      alert('Peça adicionada com sucesso!');
     } else {
-      // Editando peça existente
       pecas[index] = pecaData;
-      alert('Peça atualizada com sucesso!');
     }
     
     localStorage.setItem('pecas', JSON.stringify(pecas));
     
-    // Limpar formulário
     document.getElementById('formPeca').reset();
     document.getElementById('pecaIndex').value = '-1';
     document.getElementById('previewAdmin').style.display = 'none';
     document.getElementById('formTitulo').innerHTML = '➕ Adicionar Nova Peça';
+    btnSalvar.disabled = false;
     
-    // Atualizar listas
     atualizarListaAdmin();
     atualizarGridPecas();
+    alert(index === '-1' ? 'Peça adicionada com sucesso!' : 'Peça atualizada com sucesso!');
   }
 
   // Funções do Admin
@@ -688,8 +638,6 @@
       document.getElementById('adminLogin').classList.remove('ativo');
       document.getElementById('adminPanel').classList.add('ativo');
       atualizarListaAdmin();
-      document.getElementById('adminUser').value = '';
-      document.getElementById('adminPass').value = '';
     } else {
       document.getElementById('erroLogin').textContent = 'Usuário ou senha incorretos!';
       document.getElementById('erroLogin').style.display = 'block';
@@ -720,11 +668,6 @@
       document.getElementById('adminPass').value = '';
       document.getElementById('erroLogin').style.display = 'none';
     }
-  });
-
-  // Forçar atualização das imagens quando a página carregar
-  window.addEventListener('load', function() {
-    atualizarGridPecas();
   });
 
   // Inicializar
