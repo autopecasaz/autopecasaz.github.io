@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -28,41 +26,7 @@
     .pecas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
     .peca-card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: 0.2s; border: 1px solid #ddd; }
     .peca-card:hover { transform: scale(1.02); border-color: #FFCB04; }
-    .peca-img { 
-      width: 100%; 
-      height: 200px; 
-      background-size: cover; 
-      background-position: center; 
-      background-repeat: no-repeat; 
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .peca-img .icone-grande {
-      font-size: 5rem;
-      color: white;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-      background: rgba(0,0,0,0.3);
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(2px);
-    }
-    .peca-img span { 
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      background: rgba(33, 63, 153, 0.9);
-      color: #FFCB04;
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      border: 2px solid #FFCB04;
-    }
+    .peca-img { width: 100%; height: 200px; background-color: #f0f0f0; background-size: cover; background-position: center; background-repeat: no-repeat; }
     .peca-info { padding: 20px; }
     .peca-nome { font-weight: 700; font-size: 1.2rem; min-height: 3.5rem; color: #213F99; }
     .peca-preco { font-size: 1.5rem; font-weight: 800; color: #2b7a2b; margin: 10px 0 5px; }
@@ -77,21 +41,213 @@
     .whats-float:hover { transform: scale(1.1); background: #128C7E; }
     .whats-float svg { width: 40px; height: 40px; fill: white; }
 
-    /* Cores de fundo para cada tipo de peça */
-    .bg-motor { background: linear-gradient(135deg, #2c3e50, #3498db); }
-    .bg-cambio { background: linear-gradient(135deg, #34495e, #7f8c8d); }
-    .bg-farol { background: linear-gradient(135deg, #f39c12, #e67e22); }
-    .bg-porta { background: linear-gradient(135deg, #16a085, #27ae60); }
-    .bg-radiador { background: linear-gradient(135deg, #c0392b, #e74c3c); }
-    .bg-roda { background: linear-gradient(135deg, #8e44ad, #9b59b6); }
-    .bg-banco { background: linear-gradient(135deg, #d35400, #e67e22); }
-    .bg-eixo { background: linear-gradient(135deg, #7f8c8d, #95a5a6); }
-    .bg-turbo { background: linear-gradient(135deg, #bdc3c7, #ecf0f1); }
-    .bg-alternador { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+    /* Área Admin no rodapé */
+    .admin-rodape { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); }
+    .admin-toggle { color: rgba(255,255,255,0.5); font-size: 0.8rem; cursor: pointer; display: inline-block; transition: 0.3s; }
+    .admin-toggle:hover { color: #FFCB04; }
+    .admin-login { display: none; max-width: 300px; margin: 15px auto 0; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+    .admin-login input { width: 100%; padding: 10px; margin: 8px 0; border: none; border-radius: 5px; background: #f0f0f0; }
+    .admin-login button { background: #FFCB04; color: #213F99; border: none; padding: 10px 20px; border-radius: 5px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; }
+    .admin-login button:hover { background: #e6b800; }
+    .admin-login.ativo { display: block; }
+    .erro-login { color: #ff6b6b; font-size: 0.8rem; margin-top: 5px; display: none; }
+
+    /* Painel Admin em nova aba */
+    .admin-panel-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 9999;
+      overflow-y: auto;
+      display: none;
+    }
+    .admin-panel-container.ativo {
+      display: block;
+    }
+    .admin-header {
+      background: #213F99;
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .admin-header h2 {
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .admin-header button {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .admin-content {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 20px;
+      padding: 20px;
+      background: #f5f5f5;
+      min-height: calc(100vh - 80px);
+    }
+    .form-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: fit-content;
+    }
+    .form-card h3 {
+      color: #213F99;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #FFCB04;
+      padding-bottom: 10px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #333;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #213F99;
+      outline: none;
+    }
+    .upload-area {
+      border: 2px dashed #213F99;
+      padding: 20px;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 15px 0;
+      background: #f8f9ff;
+    }
+    .upload-area:hover {
+      background: #e8ecff;
+    }
+    .preview-img {
+      max-width: 100%;
+      max-height: 150px;
+      margin: 10px 0;
+      border-radius: 5px;
+      display: none;
+      border: 2px solid #213F99;
+    }
+    .btn-salvar {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 5px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+    .btn-salvar:hover {
+      background: #218838;
+    }
+    .pecas-lista {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .pecas-lista h3 {
+      color: #213F99;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #FFCB04;
+      padding-bottom: 10px;
+    }
+    .peca-item-admin {
+      display: grid;
+      grid-template-columns: 80px 1fr 120px 100px 100px;
+      gap: 10px;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .peca-item-admin:hover {
+      background: #f8f9ff;
+    }
+    .peca-item-admin img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    .peca-item-admin .info h4 {
+      font-size: 0.9rem;
+      color: #213F99;
+      margin-bottom: 5px;
+    }
+    .peca-item-admin .info p {
+      font-size: 0.8rem;
+      color: #666;
+    }
+    .btn-editar {
+      background: #FFCB04;
+      color: #213F99;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .btn-excluir {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .btn-editar:hover { background: #e6b800; }
+    .btn-excluir:hover { background: #c82333; }
+    .voltar-site {
+      background: #6c757d;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+    .voltar-site:hover {
+      background: #5a6268;
+    }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <!-- Font Awesome para ícones adicionais -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -130,103 +286,145 @@
   <p>⚙️ Desmanche AZ Acessórios · Peças automotivas de procedência</p>
   <p>📞 WhatsApp <strong>(11) 92147-4407</strong> · Atendimento rápido</p>
   <p style="margin-top: 20px;">© 2025 Desmanche AZ · Todos os direitos reservados</p>
+  
+  <!-- Área Admin no rodapé -->
+  <div class="admin-rodape">
+    <div class="admin-toggle" onclick="toggleAdminLogin()">⚙️ Área restrita</div>
+    
+    <div class="admin-login" id="adminLogin">
+      <input type="text" id="adminUser" placeholder="Usuário" value="admin">
+      <input type="password" id="adminPass" placeholder="Senha" value="123456">
+      <button onclick="fazerLogin()">Acessar Painel</button>
+      <div class="erro-login" id="erroLogin">Usuário ou senha incorretos!</div>
+    </div>
+  </div>
 </footer>
 
 <a class="whats-float" href="https://wa.me/5511921474407?text=Olá%2C%20vim%20do%20site%20Desmanche%20AZ%20e%20preciso%20de%20ajuda." target="_blank">
   <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.93.57 3.8 1.64 5.4L2.05 22l4.88-1.61a9.92 9.92 0 0 0 5.11 1.4c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.26c-1.46 0-2.89-.4-4.15-1.16l-.3-.18-2.98.98 1-2.87-.2-.32a8.16 8.16 0 0 1-1.26-4.4c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.69 8.24-8.24 8.24z"/><path d="M13.16 12.66c-.27-.13-.93-.45-1.07-.5-.14-.06-.24-.09-.34.09-.1.18-.4.5-.49.6-.09.1-.18.11-.34.04-.16-.07-.68-.25-1.3-.8-.48-.42-.8-.94-.9-1.1-.09-.16-.01-.25.07-.33.08-.08.18-.2.27-.3.09-.1.12-.18.18-.3.06-.12.03-.22-.02-.32-.05-.1-.44-1.07-.61-1.47-.16-.39-.33-.34-.45-.35h-.38c-.12 0-.3.04-.46.2-.16.16-.6.58-.6 1.42 0 .84.6 1.65.69 1.76.09.12 1.2 1.84 2.91 2.58.4.18.72.29.96.37.4.12.77.1 1.06.06.32-.04 1-.41 1.14-.8.14-.4.14-.74.1-.8-.04-.07-.14-.11-.27-.18z"/></svg>
 </a>
 
+<!-- Painel Admin em tela cheia -->
+<div class="admin-panel-container" id="adminPanel">
+  <div class="admin-header">
+    <h2>⚙️ Painel Administrativo - Gerenciar Peças</h2>
+    <div>
+      <button class="voltar-site" onclick="voltarParaSite()">← Voltar ao Site</button>
+      <button onclick="fecharAdminPanel()">Fechar</button>
+    </div>
+  </div>
+  
+  <div class="admin-content">
+    <!-- Formulário para adicionar/editar peça -->
+    <div class="form-card">
+      <h3 id="formTitulo">➕ Adicionar Nova Peça</h3>
+      <form id="formPeca" onsubmit="salvarPeca(event)">
+        <input type="hidden" id="pecaIndex" value="-1">
+        
+        <div class="form-group">
+          <label>Nome da Peça:</label>
+          <input type="text" id="nomePeca" required placeholder="Ex: Motor 1.0 8v GM">
+        </div>
+        
+        <div class="form-group">
+          <label>Descrição:</label>
+          <textarea id="descPeca" rows="3" required placeholder="Descreva a peça, ano, estado..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label>Preço:</label>
+          <input type="text" id="precoPeca" required placeholder="R$ 0,00">
+        </div>
+        
+        <div class="form-group">
+          <label>URL da Imagem:</label>
+          <input type="url" id="urlImagem" placeholder="https://...">
+        </div>
+        
+        <div class="upload-area" onclick="document.getElementById('fileImagem').click()">
+          <p>📁 Clique para fazer upload de uma imagem</p>
+          <small>Ou use a URL acima</small>
+          <input type="file" id="fileImagem" accept="image/*" style="display: none;" onchange="previewImagemAdmin(this)">
+        </div>
+        
+        <img id="previewAdmin" class="preview-img" src="#" alt="Preview">
+        
+        <button type="submit" class="btn-salvar">
+          💾 SALVAR PEÇA
+        </button>
+      </form>
+    </div>
+    
+    <!-- Lista de peças para editar/excluir -->
+    <div class="pecas-lista">
+      <h3>📋 Peças Cadastradas</h3>
+      <div id="listaPecasAdmin"></div>
+    </div>
+  </div>
+</div>
+
 <script>
-  const pecas = [
+  // Carregar peças do localStorage ou usar as padrão
+  let pecas = JSON.parse(localStorage.getItem('pecas')) || [
     { 
       nome: "Motor 1.0 8v GM (completo)", 
       descricao: "Motor Família 1 usado, testado, ano 2014/2015. Acompanha volante e embreagem.", 
       preco: "R$ 2.490,00",
-      bgClass: "bg-motor",
-      icone: "fa-solid fa-engine",
-      iconeEmoji: "🔧",
-      iconeGrande: "⚙️"
+      imagem: "https://http2.mlstatic.com/D_NQ_NP_752646-MLB75173613677_032024-O.webp"
     },
     { 
       nome: "Câmbio Fiat Palio 5 marchas", 
       descricao: "Câmbio 5 velocidades, km baixa, troca suave. Para motor 1.0 / 1.4.", 
       preco: "R$ 980,00",
-      bgClass: "bg-cambio",
-      icone: "fa-solid fa-gears",
-      iconeEmoji: "⚙️",
-      iconeGrande: "⚙️"
+      imagem: "https://http2.mlstatic.com/D_NQ_NP_815880-MLB77870229258_072024-O.webp"
     },
     { 
       nome: "Par de faróis Gol G5 (dianteiro)", 
       descricao: "Faróis completos, cristal, sem trincos. Soquete H4 funcionando.", 
       preco: "R$ 320,00",
-      bgClass: "bg-farol",
-      icone: "fa-regular fa-lightbulb",
-      iconeEmoji: "💡",
-      iconeGrande: "💡"
+      imagem: "https://http2.mlstatic.com/D_NQ_NP_815098-MLB71706740340_092023-O.webp"
     },
     { 
       nome: "Porta dianteira esquerda VW Fox", 
       descricao: "Cor azul, completa com maçaneta, vidro e mecanismo. Bom estado.", 
       preco: "R$ 650,00",
-      bgClass: "bg-porta",
-      icone: "fa-solid fa-car-side",
-      iconeEmoji: "🚪",
-      iconeGrande: "🚗"
+      imagem: "https://http2.mlstatic.com/D_NQ_NP_666480-MLB71381515164_082023-O.webp"
     },
     { 
       nome: "Radiador Chevrolet Onix 1.4", 
       descricao: "Radiador original, sem vazamentos, limpo. Ano 2013 a 2018.", 
       preco: "R$ 280,00",
-      bgClass: "bg-radiador",
-      icone: "fa-solid fa-fan",
-      iconeEmoji: "🌡️",
-      iconeGrande: "❄️"
+      imagem: "https://http2.mlstatic.com/D_NQ_NP_624950-MLB74129936458_012024-O.webp"
     },
     { 
       nome: "Conjunto de rodas aro 15 (4 unidades)", 
       descricao: "Rodas de liga leve Ford Fiesta, pneus 195/55 com 60% de vida.", 
       preco: "R$ 1.120,00",
-      bgClass: "bg-roda",
-      icone: "fa-solid fa-circle",
-      iconeEmoji: "🛞",
-      iconeGrande: "⭕"
+      imagem: "https://http2.mlstatic.com/D_NQ_NP_806999-MLB70552590606_072023-O.webp"
     },
     { 
       nome: "Banco traseiro completo Honda Civic", 
       descricao: "Banco traseiro inteiro, tecido bege, sem rasgos. Ano 2012.", 
       preco: "R$ 890,00",
-      bgClass: "bg-banco",
-      icone: "fa-solid fa-chair",
-      iconeEmoji: "💺",
-      iconeGrande: "🪑"
+      imagem: "https://http2.mlstatic.com/D_NQ_NP_794042-MLB74513590996_022024-O.webp"
     },
     { 
       nome: "Eixo traseiro com tambores Fiat Uno", 
       descricao: "Eixo completo, cubos e freio em bom estado. Usado mas retificado.", 
       preco: "R$ 750,00",
-      bgClass: "bg-eixo",
-      icone: "fa-solid fa-bolt",
-      iconeEmoji: "🔩",
-      iconeGrande: "⚙️"
+      imagem: "https://http2.mlstatic.com/D_NQ_NP_975128-MLB70287665106_072023-O.webp"
     },
     { 
       nome: "Turbo original VW Saveiro 1.6 TDI", 
       descricao: "Turbo recondicionado, pouco uso, funciona perfeitamente.", 
       preco: "R$ 1.350,00",
-      bgClass: "bg-turbo",
-      icone: "fa-solid fa-wind",
-      iconeEmoji: "⚡",
-      iconeGrande: "💨"
+      imagem: "https://http2.mlstatic.com/D_NQ_NP_793953-MLB53003056178_122022-O.webp"
     },
     { 
       nome: "Alternador 120A Chevrolet S10", 
       descricao: "Alternador 12V, testado, carga forte. Diesel ou flex.", 
       preco: "R$ 430,00",
-      bgClass: "bg-alternador",
-      icone: "fa-solid fa-bolt",
-      iconeEmoji: "🔋",
-      iconeGrande: "⚡"
+      imagem: "https://http2.mlstatic.com/D_NQ_NP_740445-MLB71901089644_092023-O.webp"
     }
   ];
 
@@ -236,32 +434,27 @@
     return `https://wa.me/${whatsappNumero}?text=${encodeURIComponent(texto)}`;
   }
 
-  const grid = document.getElementById('pecas-grid');
-  if (grid) {
+  // Função para atualizar o grid de peças no site
+  function atualizarGridPecas() {
+    const grid = document.getElementById('pecas-grid');
+    if (!grid) return;
+    
+    grid.innerHTML = '';
     pecas.forEach(item => {
       const card = document.createElement('div');
       card.className = 'peca-card';
 
       const imagemDiv = document.createElement('div');
-      imagemDiv.className = `peca-img ${item.bgClass}`;
-      
-      // Ícone grande centralizado
-      const iconeGrande = document.createElement('div');
-      iconeGrande.className = 'icone-grande';
-      iconeGrande.innerHTML = item.iconeGrande;
-      imagemDiv.appendChild(iconeGrande);
-      
-      // Tag com ícone e nome da peça
-      const span = document.createElement('span');
-      span.innerHTML = `${item.iconeEmoji} ${item.nome.split(' ')[0]}`;
-      imagemDiv.appendChild(span);
+      imagemDiv.className = 'peca-img';
+      imagemDiv.style.backgroundImage = `url('${item.imagem}')`;
+      imagemDiv.style.backgroundColor = '#e0e0e0';
 
       const info = document.createElement('div');
       info.className = 'peca-info';
 
       const nome = document.createElement('div');
       nome.className = 'peca-nome';
-      nome.innerHTML = `<i class="${item.icone}" style="margin-right: 8px; color: #213F99;"></i>${item.nome}`;
+      nome.innerText = item.nome;
 
       const preco = document.createElement('div');
       preco.className = 'peca-preco';
@@ -277,7 +470,7 @@
 
       const mensagem = `Olá! Tenho interesse na peça: *${item.nome}* (${item.preco}). Descrição: ${item.descricao}. Ainda está disponível?`;
       botao.href = gerarLinkWhats(mensagem);
-      botao.innerHTML = '<i class="fa-brands fa-whatsapp" style="margin-right: 8px;"></i> COMPRAR · CHAMAR NO WHATS';
+      botao.innerHTML = '📲 COMPRAR · CHAMAR NO WHATS';
 
       info.appendChild(nome);
       info.appendChild(preco);
@@ -288,6 +481,159 @@
       grid.appendChild(card);
     });
   }
+
+  // Função para atualizar a lista de peças no painel admin
+  function atualizarListaAdmin() {
+    const lista = document.getElementById('listaPecasAdmin');
+    if (!lista) return;
+    
+    lista.innerHTML = '';
+    pecas.forEach((peca, index) => {
+      const item = document.createElement('div');
+      item.className = 'peca-item-admin';
+      
+      item.innerHTML = `
+        <div><img src="${peca.imagem || 'https://via.placeholder.com/70x70?text=Peça'}" onerror="this.src='https://via.placeholder.com/70x70?text=Erro'"></div>
+        <div class="info">
+          <h4>${peca.nome}</h4>
+          <p>${peca.descricao.substring(0, 40)}...</p>
+        </div>
+        <div class="preco" style="font-weight:700;color:#2b7a2b;">${peca.preco}</div>
+        <div><button class="btn-editar" onclick="editarPeca(${index})">✏️ Editar</button></div>
+        <div><button class="btn-excluir" onclick="excluirPeca(${index})">🗑️ Excluir</button></div>
+      `;
+      
+      lista.appendChild(item);
+    });
+  }
+
+  // Função para editar peça
+  window.editarPeca = function(index) {
+    const peca = pecas[index];
+    document.getElementById('pecaIndex').value = index;
+    document.getElementById('nomePeca').value = peca.nome;
+    document.getElementById('descPeca').value = peca.descricao;
+    document.getElementById('precoPeca').value = peca.preco;
+    document.getElementById('urlImagem').value = peca.imagem || '';
+    document.getElementById('formTitulo').innerHTML = '✏️ Editando Peça';
+    
+    if (peca.imagem) {
+      const preview = document.getElementById('previewAdmin');
+      preview.src = peca.imagem;
+      preview.style.display = 'block';
+    }
+    
+    // Rolar para o formulário
+    document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Função para excluir peça
+  window.excluirPeca = function(index) {
+    if (confirm('Tem certeza que deseja excluir esta peça?')) {
+      pecas.splice(index, 1);
+      localStorage.setItem('pecas', JSON.stringify(pecas));
+      atualizarListaAdmin();
+      atualizarGridPecas();
+    }
+  }
+
+  // Preview de imagem no admin
+  window.previewImagemAdmin = function(input) {
+    const preview = document.getElementById('previewAdmin');
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        document.getElementById('urlImagem').value = e.target.result;
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // Salvar peça (nova ou editada)
+  window.salvarPeca = function(event) {
+    event.preventDefault();
+    
+    const index = document.getElementById('pecaIndex').value;
+    const urlImagem = document.getElementById('urlImagem').value;
+    
+    const pecaData = {
+      nome: document.getElementById('nomePeca').value,
+      descricao: document.getElementById('descPeca').value,
+      preco: document.getElementById('precoPeca').value,
+      imagem: urlImagem || 'https://via.placeholder.com/300x200?text=Peça'
+    };
+    
+    if (index === '-1') {
+      // Nova peça
+      pecas.push(pecaData);
+      alert('Peça adicionada com sucesso!');
+    } else {
+      // Editando peça existente
+      pecas[index] = pecaData;
+      alert('Peça atualizada com sucesso!');
+    }
+    
+    localStorage.setItem('pecas', JSON.stringify(pecas));
+    
+    // Limpar formulário
+    document.getElementById('formPeca').reset();
+    document.getElementById('pecaIndex').value = '-1';
+    document.getElementById('previewAdmin').style.display = 'none';
+    document.getElementById('formTitulo').innerHTML = '➕ Adicionar Nova Peça';
+    
+    // Atualizar listas
+    atualizarListaAdmin();
+    atualizarGridPecas();
+  }
+
+  // Funções do Admin
+  window.toggleAdminLogin = function() {
+    const loginDiv = document.getElementById('adminLogin');
+    loginDiv.classList.toggle('ativo');
+    document.getElementById('erroLogin').style.display = 'none';
+  }
+
+  window.fazerLogin = function() {
+    const usuario = document.getElementById('adminUser').value;
+    const senha = document.getElementById('adminPass').value;
+    
+    if (usuario === 'admin' && senha === '123456') {
+      document.getElementById('adminLogin').classList.remove('ativo');
+      document.getElementById('adminPanel').classList.add('ativo');
+      atualizarListaAdmin();
+    } else {
+      document.getElementById('erroLogin').style.display = 'block';
+    }
+  }
+
+  window.fecharAdminPanel = function() {
+    document.getElementById('adminPanel').classList.remove('ativo');
+    // Limpar formulário ao fechar
+    document.getElementById('formPeca').reset();
+    document.getElementById('pecaIndex').value = '-1';
+    document.getElementById('previewAdmin').style.display = 'none';
+    document.getElementById('formTitulo').innerHTML = '➕ Adicionar Nova Peça';
+  }
+
+  window.voltarParaSite = function() {
+    document.getElementById('adminPanel').classList.remove('ativo');
+  }
+
+  // Fecha o login se clicar fora
+  document.addEventListener('click', function(event) {
+    const loginDiv = document.getElementById('adminLogin');
+    const toggleBtn = document.querySelector('.admin-toggle');
+    
+    if (loginDiv && toggleBtn && loginDiv.classList.contains('ativo') && 
+        !loginDiv.contains(event.target) && !toggleBtn.contains(event.target)) {
+      loginDiv.classList.remove('ativo');
+    }
+  });
+
+  // Inicializar o grid
+  atualizarGridPecas();
 </script>
 </body>
 </html>
