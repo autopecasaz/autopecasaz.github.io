@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>Desmanche AZ Acessórios · Peças Automotivas</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
@@ -26,7 +26,25 @@
     .pecas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
     .peca-card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); transition: 0.2s; border: 1px solid #ddd; }
     .peca-card:hover { transform: scale(1.02); border-color: #FFCB04; }
-    .peca-img { width: 100%; height: 200px; background-color: #f0f0f0; background-size: cover; background-position: center; background-repeat: no-repeat; }
+    .peca-img { 
+      width: 100%; 
+      height: 200px; 
+      background-color: #f0f0f0; 
+      background-size: cover; 
+      background-position: center; 
+      background-repeat: no-repeat;
+      position: relative;
+    }
+    .peca-img::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(33, 63, 153, 0.1);
+      pointer-events: none;
+    }
     .peca-info { padding: 20px; }
     .peca-nome { font-weight: 700; font-size: 1.2rem; min-height: 3.5rem; color: #213F99; }
     .peca-preco { font-size: 1.5rem; font-weight: 800; color: #2b7a2b; margin: 10px 0 5px; }
@@ -53,7 +71,7 @@
     .admin-login.ativo { display: block; }
     .erro-login { color: #ff6b6b; font-size: 0.8rem; margin-top: 5px; display: none; }
 
-    /* Painel Admin em nova aba */
+    /* Painel Admin */
     .admin-panel-container {
       position: fixed;
       top: 0;
@@ -179,6 +197,8 @@
       padding: 25px;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      max-height: 800px;
+      overflow-y: auto;
     }
     .pecas-lista h3 {
       color: #213F99;
@@ -247,6 +267,32 @@
     .voltar-site:hover {
       background: #5a6268;
     }
+
+    /* Responsividade para mobile */
+    @media (max-width: 768px) {
+      .admin-content {
+        grid-template-columns: 1fr;
+      }
+      .peca-item-admin {
+        grid-template-columns: 60px 1fr;
+        gap: 10px;
+      }
+      .peca-item-admin .preco {
+        grid-column: 2;
+      }
+      .peca-item-admin button {
+        grid-column: span 1;
+        width: 100%;
+      }
+      .admin-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      .admin-header h2 {
+        font-size: 1.2rem;
+      }
+    }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -305,7 +351,7 @@
   <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.93.57 3.8 1.64 5.4L2.05 22l4.88-1.61a9.92 9.92 0 0 0 5.11 1.4c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.26c-1.46 0-2.89-.4-4.15-1.16l-.3-.18-2.98.98 1-2.87-.2-.32a8.16 8.16 0 0 1-1.26-4.4c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.69 8.24-8.24 8.24z"/><path d="M13.16 12.66c-.27-.13-.93-.45-1.07-.5-.14-.06-.24-.09-.34.09-.1.18-.4.5-.49.6-.09.1-.18.11-.34.04-.16-.07-.68-.25-1.3-.8-.48-.42-.8-.94-.9-1.1-.09-.16-.01-.25.07-.33.08-.08.18-.2.27-.3.09-.1.12-.18.18-.3.06-.12.03-.22-.02-.32-.05-.1-.44-1.07-.61-1.47-.16-.39-.33-.34-.45-.35h-.38c-.12 0-.3.04-.46.2-.16.16-.6.58-.6 1.42 0 .84.6 1.65.69 1.76.09.12 1.2 1.84 2.91 2.58.4.18.72.29.96.37.4.12.77.1 1.06.06.32-.04 1-.41 1.14-.8.14-.4.14-.74.1-.8-.04-.07-.14-.11-.27-.18z"/></svg>
 </a>
 
-<!-- Painel Admin em tela cheia -->
+<!-- Painel Admin -->
 <div class="admin-panel-container" id="adminPanel">
   <div class="admin-header">
     <h2>⚙️ Painel Administrativo - Gerenciar Peças</h2>
@@ -316,7 +362,7 @@
   </div>
   
   <div class="admin-content">
-    <!-- Formulário para adicionar/editar peça -->
+    <!-- Formulário -->
     <div class="form-card">
       <h3 id="formTitulo">➕ Adicionar Nova Peça</h3>
       <form id="formPeca" onsubmit="salvarPeca(event)">
@@ -338,13 +384,13 @@
         </div>
         
         <div class="form-group">
-          <label>URL da Imagem:</label>
+          <label>URL da Imagem (opcional):</label>
           <input type="url" id="urlImagem" placeholder="https://...">
         </div>
         
         <div class="upload-area" onclick="document.getElementById('fileImagem').click()">
           <p>📁 Clique para fazer upload de uma imagem</p>
-          <small>Ou use a URL acima</small>
+          <small>Formatos: JPG, PNG, GIF (até 5MB)</small>
           <input type="file" id="fileImagem" accept="image/*" style="display: none;" onchange="previewImagemAdmin(this)">
         </div>
         
@@ -356,7 +402,7 @@
       </form>
     </div>
     
-    <!-- Lista de peças para editar/excluir -->
+    <!-- Lista de peças -->
     <div class="pecas-lista">
       <h3>📋 Peças Cadastradas</h3>
       <div id="listaPecasAdmin"></div>
@@ -447,8 +493,21 @@
 
       const imagemDiv = document.createElement('div');
       imagemDiv.className = 'peca-img';
-      imagemDiv.style.backgroundImage = `url('${item.imagem}')`;
-      imagemDiv.style.backgroundColor = '#e0e0e0';
+      
+      // Garantir que a imagem seja carregada corretamente em qualquer dispositivo
+      if (item.imagem) {
+        // Forçar recarregamento com timestamp para evitar cache
+        const timestamp = new Date().getTime();
+        const imagemUrl = item.imagem.includes('data:image') 
+          ? item.imagem 
+          : item.imagem + (item.imagem.includes('?') ? `&t=${timestamp}` : `?t=${timestamp}`);
+        
+        imagemDiv.style.backgroundImage = `url('${imagemUrl}')`;
+        imagemDiv.style.backgroundColor = '#213F99'; // Cor de fallback
+      } else {
+        imagemDiv.style.backgroundColor = '#213F99';
+        imagemDiv.style.backgroundImage = 'none';
+      }
 
       const info = document.createElement('div');
       info.className = 'peca-info';
@@ -493,8 +552,10 @@
       const item = document.createElement('div');
       item.className = 'peca-item-admin';
       
+      const imagemSrc = peca.imagem || 'https://via.placeholder.com/70x70?text=Peça';
+      
       item.innerHTML = `
-        <div><img src="${peca.imagem || 'https://via.placeholder.com/70x70?text=Peça'}" onerror="this.src='https://via.placeholder.com/70x70?text=Erro'"></div>
+        <div><img src="${imagemSrc}" onerror="this.src='https://via.placeholder.com/70x70?text=Erro'" style="width:70px;height:70px;object-fit:cover;border-radius:5px;"></div>
         <div class="info">
           <h4>${peca.nome}</h4>
           <p>${peca.descricao.substring(0, 40)}...</p>
@@ -522,6 +583,8 @@
       const preview = document.getElementById('previewAdmin');
       preview.src = peca.imagem;
       preview.style.display = 'block';
+    } else {
+      document.getElementById('previewAdmin').style.display = 'none';
     }
     
     // Rolar para o formulário
@@ -542,6 +605,12 @@
   window.previewImagemAdmin = function(input) {
     const preview = document.getElementById('previewAdmin');
     if (input.files && input.files[0]) {
+      // Verificar tamanho do arquivo (limite de 5MB)
+      if (input.files[0].size > 5 * 1024 * 1024) {
+        alert('Arquivo muito grande! Máximo 5MB.');
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onload = function(e) {
         preview.src = e.target.result;
@@ -559,11 +628,18 @@
     const index = document.getElementById('pecaIndex').value;
     const urlImagem = document.getElementById('urlImagem').value;
     
+    // Usar imagem padrão se nenhuma for fornecida
+    let imagemFinal = urlImagem;
+    if (!imagemFinal) {
+      const nome = document.getElementById('nomePeca').value;
+      imagemFinal = `https://via.placeholder.com/300x200?text=${encodeURIComponent(nome.substring(0, 20))}`;
+    }
+    
     const pecaData = {
       nome: document.getElementById('nomePeca').value,
       descricao: document.getElementById('descPeca').value,
       preco: document.getElementById('precoPeca').value,
-      imagem: urlImagem || 'https://via.placeholder.com/300x200?text=Peça'
+      imagem: imagemFinal
     };
     
     if (index === '-1') {
@@ -594,7 +670,6 @@
     const loginDiv = document.getElementById('adminLogin');
     loginDiv.classList.toggle('ativo');
     document.getElementById('erroLogin').style.display = 'none';
-    // Limpar campos de login
     document.getElementById('adminUser').value = '';
     document.getElementById('adminPass').value = '';
   }
@@ -603,19 +678,16 @@
     const usuario = document.getElementById('adminUser').value;
     const senha = document.getElementById('adminPass').value;
     
-    // Verificar se os campos não estão vazios
     if (!usuario || !senha) {
       document.getElementById('erroLogin').textContent = 'Preencha usuário e senha!';
       document.getElementById('erroLogin').style.display = 'block';
       return;
     }
     
-    // Credenciais corretas
     if (usuario === 'admin' && senha === '123456') {
       document.getElementById('adminLogin').classList.remove('ativo');
       document.getElementById('adminPanel').classList.add('ativo');
       atualizarListaAdmin();
-      // Limpar campos de login
       document.getElementById('adminUser').value = '';
       document.getElementById('adminPass').value = '';
     } else {
@@ -626,7 +698,6 @@
 
   window.fecharAdminPanel = function() {
     document.getElementById('adminPanel').classList.remove('ativo');
-    // Limpar formulário ao fechar
     document.getElementById('formPeca').reset();
     document.getElementById('pecaIndex').value = '-1';
     document.getElementById('previewAdmin').style.display = 'none';
@@ -645,14 +716,18 @@
     if (loginDiv && toggleBtn && loginDiv.classList.contains('ativo') && 
         !loginDiv.contains(event.target) && !toggleBtn.contains(event.target)) {
       loginDiv.classList.remove('ativo');
-      // Limpar campos ao fechar
       document.getElementById('adminUser').value = '';
       document.getElementById('adminPass').value = '';
       document.getElementById('erroLogin').style.display = 'none';
     }
   });
 
-  // Inicializar o grid
+  // Forçar atualização das imagens quando a página carregar
+  window.addEventListener('load', function() {
+    atualizarGridPecas();
+  });
+
+  // Inicializar
   atualizarGridPecas();
 </script>
 </body>
