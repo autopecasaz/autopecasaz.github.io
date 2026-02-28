@@ -51,8 +51,9 @@
     /* Loading */
     .loading {
       text-align: center;
-      padding: 20px;
+      padding: 50px;
       color: #213F99;
+      font-size: 1.2rem;
     }
     .loading::after {
       content: '';
@@ -244,15 +245,23 @@
       font-weight: 600;
       margin-right: 10px;
     }
-
-    @media (max-width: 768px) {
-      .admin-content { grid-template-columns: 1fr; }
-      .peca-item-admin { grid-template-columns: 60px 1fr; }
-      .peca-item-admin .preco { grid-column: 2; }
-      .peca-item-admin button { grid-column: span 1; width: 100%; }
+    .sync-status {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: none;
+      z-index: 10000;
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -277,7 +286,7 @@
 
   <h2 class="vitrine-titulo">🔩 PEÇAS EM DESTAQUE (DESMANCHE)</h2>
   <div class="pecas-grid" id="pecas-grid">
-    <div class="loading">Carregando peças...</div>
+    <div class="loading">Carregando peças do servidor...</div>
   </div>
 
   <div style="background: #fff3cd; padding: 25px; border-radius: 40px; margin: 50px 0; text-align: center; border: 2px solid #213F99;">
@@ -344,7 +353,7 @@
           <input type="file" id="fileImagem" accept="image/*" style="display: none;" onchange="previewImagemAdmin(this)">
         </div>
         
-        <div id="uploadStatus" class="loading" style="display: none;">Convertendo imagem...</div>
+        <div id="uploadStatus" class="loading" style="display: none;">Processando imagem...</div>
         <img id="previewAdmin" class="preview-img" src="#" alt="Preview">
         
         <button type="submit" class="btn-salvar" id="btnSalvar">
@@ -360,72 +369,141 @@
   </div>
 </div>
 
-<script>
-  // Todos os 10 produtos originais
-  let pecas = JSON.parse(localStorage.getItem('pecas')) || [
-    { 
-      nome: "Motor 1.0 8v GM (completo)", 
-      descricao: "Motor Família 1 usado, testado, ano 2014/2015. Acompanha volante e embreagem.", 
-      preco: "R$ 2.490,00",
-      imagem: "https://http2.mlstatic.com/D_NQ_NP_752646-MLB75173613677_032024-O.webp"
-    },
-    { 
-      nome: "Câmbio Fiat Palio 5 marchas", 
-      descricao: "Câmbio 5 velocidades, km baixa, troca suave. Para motor 1.0 / 1.4.", 
-      preco: "R$ 980,00",
-      imagem: "https://http2.mlstatic.com/D_NQ_NP_815880-MLB77870229258_072024-O.webp"
-    },
-    { 
-      nome: "Par de faróis Gol G5 (dianteiro)", 
-      descricao: "Faróis completos, cristal, sem trincos. Soquete H4 funcionando.", 
-      preco: "R$ 320,00",
-      imagem: "https://http2.mlstatic.com/D_NQ_NP_815098-MLB71706740340_092023-O.webp"
-    },
-    { 
-      nome: "Porta dianteira esquerda VW Fox", 
-      descricao: "Cor azul, completa com maçaneta, vidro e mecanismo. Bom estado.", 
-      preco: "R$ 650,00",
-      imagem: "https://http2.mlstatic.com/D_NQ_NP_666480-MLB71381515164_082023-O.webp"
-    },
-    { 
-      nome: "Radiador Chevrolet Onix 1.4", 
-      descricao: "Radiador original, sem vazamentos, limpo. Ano 2013 a 2018.", 
-      preco: "R$ 280,00",
-      imagem: "https://http2.mlstatic.com/D_NQ_NP_624950-MLB74129936458_012024-O.webp"
-    },
-    { 
-      nome: "Conjunto de rodas aro 15 (4 unidades)", 
-      descricao: "Rodas de liga leve Ford Fiesta, pneus 195/55 com 60% de vida.", 
-      preco: "R$ 1.120,00",
-      imagem: "https://http2.mlstatic.com/D_NQ_NP_806999-MLB70552590606_072023-O.webp"
-    },
-    { 
-      nome: "Banco traseiro completo Honda Civic", 
-      descricao: "Banco traseiro inteiro, tecido bege, sem rasgos. Ano 2012.", 
-      preco: "R$ 890,00",
-      imagem: "https://http2.mlstatic.com/D_NQ_NP_794042-MLB74513590996_022024-O.webp"
-    },
-    { 
-      nome: "Eixo traseiro com tambores Fiat Uno", 
-      descricao: "Eixo completo, cubos e freio em bom estado. Usado mas retificado.", 
-      preco: "R$ 750,00",
-      imagem: "https://http2.mlstatic.com/D_NQ_NP_975128-MLB70287665106_072023-O.webp"
-    },
-    { 
-      nome: "Turbo original VW Saveiro 1.6 TDI", 
-      descricao: "Turbo recondicionado, pouco uso, funciona perfeitamente.", 
-      preco: "R$ 1.350,00",
-      imagem: "https://http2.mlstatic.com/D_NQ_NP_793953-MLB53003056178_122022-O.webp"
-    },
-    { 
-      nome: "Alternador 120A Chevrolet S10", 
-      descricao: "Alternador 12V, testado, carga forte. Diesel ou flex.", 
-      preco: "R$ 430,00",
-      imagem: "https://http2.mlstatic.com/D_NQ_NP_740445-MLB71901089644_092023-O.webp"
-    }
-  ];
+<div class="sync-status" id="syncStatus">Sincronizado com a nuvem!</div>
 
+<script>
+  // Configuração do Firebase (substitua com seus dados)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBkx4bC1RQ4FzQvLJ5zPfJk8Zz6QvXyZ9c",
+    authDomain: "desmanche-az.firebaseapp.com",
+    databaseURL: "https://desmanche-az-default-rtdb.firebaseio.com",
+    projectId: "desmanche-az",
+    storageBucket: "desmanche-az.appspot.com",
+    messagingSenderId: "123456789012",
+    appId: "1:123456789012:web:abc123def456"
+  };
+
+  // Inicializar Firebase
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
+  let pecas = [];
   const whatsappNumero = "5511921474407";
+
+  // Mostrar status de sincronização
+  function mostrarStatus(mensagem) {
+    const status = document.getElementById('syncStatus');
+    status.textContent = mensagem;
+    status.style.display = 'block';
+    setTimeout(() => {
+      status.style.display = 'none';
+    }, 3000);
+  }
+
+  // Carregar peças do Firebase
+  function carregarPecas() {
+    const grid = document.getElementById('pecas-grid');
+    grid.innerHTML = '<div class="loading">Carregando peças do servidor...</div>';
+    
+    database.ref('pecas').once('value', (snapshot) => {
+      const data = snapshot.val();
+      
+      if (data) {
+        // Converter objeto em array
+        pecas = Object.keys(data).map(key => ({
+          id: key,
+          ...data[key]
+        }));
+      } else {
+        // Dados iniciais
+        pecas = [
+          { 
+            nome: "Motor 1.0 8v GM (completo)", 
+            descricao: "Motor Família 1 usado, testado, ano 2014/2015. Acompanha volante e embreagem.", 
+            preco: "R$ 2.490,00",
+            imagem: "https://http2.mlstatic.com/D_NQ_NP_752646-MLB75173613677_032024-O.webp"
+          },
+          { 
+            nome: "Câmbio Fiat Palio 5 marchas", 
+            descricao: "Câmbio 5 velocidades, km baixa, troca suave. Para motor 1.0 / 1.4.", 
+            preco: "R$ 980,00",
+            imagem: "https://http2.mlstatic.com/D_NQ_NP_815880-MLB77870229258_072024-O.webp"
+          },
+          { 
+            nome: "Par de faróis Gol G5 (dianteiro)", 
+            descricao: "Faróis completos, cristal, sem trincos. Soquete H4 funcionando.", 
+            preco: "R$ 320,00",
+            imagem: "https://http2.mlstatic.com/D_NQ_NP_815098-MLB71706740340_092023-O.webp"
+          },
+          { 
+            nome: "Porta dianteira esquerda VW Fox", 
+            descricao: "Cor azul, completa com maçaneta, vidro e mecanismo. Bom estado.", 
+            preco: "R$ 650,00",
+            imagem: "https://http2.mlstatic.com/D_NQ_NP_666480-MLB71381515164_082023-O.webp"
+          },
+          { 
+            nome: "Radiador Chevrolet Onix 1.4", 
+            descricao: "Radiador original, sem vazamentos, limpo. Ano 2013 a 2018.", 
+            preco: "R$ 280,00",
+            imagem: "https://http2.mlstatic.com/D_NQ_NP_624950-MLB74129936458_012024-O.webp"
+          },
+          { 
+            nome: "Conjunto de rodas aro 15 (4 unidades)", 
+            descricao: "Rodas de liga leve Ford Fiesta, pneus 195/55 com 60% de vida.", 
+            preco: "R$ 1.120,00",
+            imagem: "https://http2.mlstatic.com/D_NQ_NP_806999-MLB70552590606_072023-O.webp"
+          },
+          { 
+            nome: "Banco traseiro completo Honda Civic", 
+            descricao: "Banco traseiro inteiro, tecido bege, sem rasgos. Ano 2012.", 
+            preco: "R$ 890,00",
+            imagem: "https://http2.mlstatic.com/D_NQ_NP_794042-MLB74513590996_022024-O.webp"
+          },
+          { 
+            nome: "Eixo traseiro com tambores Fiat Uno", 
+            descricao: "Eixo completo, cubos e freio em bom estado. Usado mas retificado.", 
+            preco: "R$ 750,00",
+            imagem: "https://http2.mlstatic.com/D_NQ_NP_975128-MLB70287665106_072023-O.webp"
+          },
+          { 
+            nome: "Turbo original VW Saveiro 1.6 TDI", 
+            descricao: "Turbo recondicionado, pouco uso, funciona perfeitamente.", 
+            preco: "R$ 1.350,00",
+            imagem: "https://http2.mlstatic.com/D_NQ_NP_793953-MLB53003056178_122022-O.webp"
+          },
+          { 
+            nome: "Alternador 120A Chevrolet S10", 
+            descricao: "Alternador 12V, testado, carga forte. Diesel ou flex.", 
+            preco: "R$ 430,00",
+            imagem: "https://http2.mlstatic.com/D_NQ_NP_740445-MLB71901089644_092023-O.webp"
+          }
+        ];
+        
+        // Salvar dados iniciais
+        salvarTodasPecas();
+      }
+      
+      atualizarGridPecas();
+      atualizarListaAdmin();
+    });
+  }
+
+  // Salvar todas as peças no Firebase
+  function salvarTodasPecas() {
+    const pecasObj = {};
+    pecas.forEach((peca, index) => {
+      pecasObj[`peca${index}`] = peca;
+    });
+    
+    database.ref('pecas').set(pecasObj)
+      .then(() => {
+        mostrarStatus('Dados sincronizados com a nuvem!');
+      })
+      .catch(error => {
+        console.error('Erro ao salvar:', error);
+        mostrarStatus('Erro ao sincronizar!');
+      });
+  }
 
   function atualizarGridPecas() {
     const grid = document.getElementById('pecas-grid');
@@ -512,10 +590,10 @@
     }
   }
 
-  window.excluirPeca = function(index) {
+  window.excluirPeca = async function(index) {
     if (confirm('Tem certeza que deseja excluir esta peça?')) {
       pecas.splice(index, 1);
-      localStorage.setItem('pecas', JSON.stringify(pecas));
+      await salvarTodasPecas();
       atualizarListaAdmin();
       atualizarGridPecas();
     }
@@ -543,13 +621,11 @@
     
     let imagemUrl = '';
     
-    // Se tiver uma nova imagem, converte para Base64
     if (fileInput.files && fileInput.files[0]) {
       try {
         uploadStatus.style.display = 'block';
         btnSalvar.disabled = true;
         
-        // Converter imagem para Base64
         imagemUrl = await new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(reader.result);
@@ -559,7 +635,7 @@
         
         uploadStatus.style.display = 'none';
       } catch (error) {
-        alert('Erro ao processar a imagem. Tente novamente.');
+        alert('Erro ao processar a imagem.');
         uploadStatus.style.display = 'none';
         btnSalvar.disabled = false;
         return;
@@ -583,7 +659,7 @@
       pecas[index] = pecaData;
     }
     
-    localStorage.setItem('pecas', JSON.stringify(pecas));
+    await salvarTodasPecas();
     
     document.getElementById('formPeca').reset();
     document.getElementById('pecaIndex').value = '-1';
@@ -593,7 +669,6 @@
     
     atualizarListaAdmin();
     atualizarGridPecas();
-    alert(index === '-1' ? 'Peça adicionada com sucesso!' : 'Peça atualizada com sucesso!');
   }
 
   // Funções do Admin
@@ -609,18 +684,11 @@
     const usuario = document.getElementById('adminUser').value;
     const senha = document.getElementById('adminPass').value;
     
-    if (!usuario || !senha) {
-      document.getElementById('erroLogin').textContent = 'Preencha usuário e senha!';
-      document.getElementById('erroLogin').style.display = 'block';
-      return;
-    }
-    
     if (usuario === 'admin' && senha === '123456') {
       document.getElementById('adminLogin').classList.remove('ativo');
       document.getElementById('adminPanel').classList.add('ativo');
       atualizarListaAdmin();
     } else {
-      document.getElementById('erroLogin').textContent = 'Usuário ou senha incorretos!';
       document.getElementById('erroLogin').style.display = 'block';
     }
   }
@@ -637,23 +705,8 @@
     document.getElementById('adminPanel').classList.remove('ativo');
   }
 
-  // Fecha o login se clicar fora
-  document.addEventListener('click', function(event) {
-    const loginDiv = document.getElementById('adminLogin');
-    const toggleBtn = document.querySelector('.admin-toggle');
-    
-    if (loginDiv && toggleBtn && loginDiv.classList.contains('ativo') && 
-        !loginDiv.contains(event.target) && !toggleBtn.contains(event.target)) {
-      loginDiv.classList.remove('ativo');
-      document.getElementById('adminUser').value = '';
-      document.getElementById('adminPass').value = '';
-      document.getElementById('erroLogin').style.display = 'none';
-    }
-  });
-
-  // Inicializar
-  atualizarGridPecas();
+  // Carregar dados ao iniciar
+  carregarPecas();
 </script>
 </body>
 </html>
-
