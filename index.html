@@ -47,6 +47,7 @@
     .admin-toggle:hover { color: #FFCB04; }
     .admin-login { display: none; max-width: 300px; margin: 15px auto 0; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px; }
     .admin-login input { width: 100%; padding: 10px; margin: 8px 0; border: none; border-radius: 5px; background: #f0f0f0; }
+    .admin-login input::placeholder { color: #999; }
     .admin-login button { background: #FFCB04; color: #213F99; border: none; padding: 10px 20px; border-radius: 5px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; }
     .admin-login button:hover { background: #e6b800; }
     .admin-login.ativo { display: block; }
@@ -292,8 +293,8 @@
     <div class="admin-toggle" onclick="toggleAdminLogin()">⚙️ Área restrita</div>
     
     <div class="admin-login" id="adminLogin">
-      <input type="text" id="adminUser" placeholder="Usuário" value="admin">
-      <input type="password" id="adminPass" placeholder="Senha" value="123456">
+      <input type="text" id="adminUser" placeholder="Digite seu usuário">
+      <input type="password" id="adminPass" placeholder="Digite sua senha">
       <button onclick="fazerLogin()">Acessar Painel</button>
       <div class="erro-login" id="erroLogin">Usuário ou senha incorretos!</div>
     </div>
@@ -593,17 +594,32 @@
     const loginDiv = document.getElementById('adminLogin');
     loginDiv.classList.toggle('ativo');
     document.getElementById('erroLogin').style.display = 'none';
+    // Limpar campos de login
+    document.getElementById('adminUser').value = '';
+    document.getElementById('adminPass').value = '';
   }
 
   window.fazerLogin = function() {
     const usuario = document.getElementById('adminUser').value;
     const senha = document.getElementById('adminPass').value;
     
+    // Verificar se os campos não estão vazios
+    if (!usuario || !senha) {
+      document.getElementById('erroLogin').textContent = 'Preencha usuário e senha!';
+      document.getElementById('erroLogin').style.display = 'block';
+      return;
+    }
+    
+    // Credenciais corretas
     if (usuario === 'admin' && senha === '123456') {
       document.getElementById('adminLogin').classList.remove('ativo');
       document.getElementById('adminPanel').classList.add('ativo');
       atualizarListaAdmin();
+      // Limpar campos de login
+      document.getElementById('adminUser').value = '';
+      document.getElementById('adminPass').value = '';
     } else {
+      document.getElementById('erroLogin').textContent = 'Usuário ou senha incorretos!';
       document.getElementById('erroLogin').style.display = 'block';
     }
   }
@@ -629,6 +645,10 @@
     if (loginDiv && toggleBtn && loginDiv.classList.contains('ativo') && 
         !loginDiv.contains(event.target) && !toggleBtn.contains(event.target)) {
       loginDiv.classList.remove('ativo');
+      // Limpar campos ao fechar
+      document.getElementById('adminUser').value = '';
+      document.getElementById('adminPass').value = '';
+      document.getElementById('erroLogin').style.display = 'none';
     }
   });
 
