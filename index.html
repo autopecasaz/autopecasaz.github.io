@@ -14,8 +14,35 @@
     .logo-area { display: flex; align-items: center; gap: 15px; }
     .logo-area h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.5px; line-height: 1; }
     .logo-area span { font-size: 0.9rem; font-weight: 400; opacity: 0.9; display: block; }
-    .atendimento-rapido { background: #FFCB04; color: #213F99; padding: 8px 20px; border-radius: 40px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; border: 2px solid #213F99; transition: 0.2s; }
-    .atendimento-rapido:hover { background: #fff; color: #213F99; }
+    
+    /* Botão de atendimento no início */
+    .atendimento-topo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .atendimento-rapido { 
+      background: #FFCB04; 
+      color: #213F99; 
+      padding: 12px 25px; 
+      border-radius: 40px; 
+      font-weight: 700; 
+      text-decoration: none; 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 10px; 
+      border: 2px solid #213F99; 
+      transition: 0.3s;
+      font-size: 1rem;
+    }
+    .atendimento-rapido:hover { 
+      background: #fff; 
+      color: #213F99; 
+      transform: scale(1.05);
+    }
+    .atendimento-rapido i {
+      font-size: 1.3rem;
+    }
 
     .banner-contato { 
       background: linear-gradient(135deg, #213F99 0%, #2a4cb0 100%);
@@ -260,6 +287,7 @@
     .estrelas {
       color: #FFCB04;
       margin-top: 5px;
+      letter-spacing: 2px;
     }
     
     .contato-rapido {
@@ -374,6 +402,15 @@
     }
 
     @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      .atendimento-topo {
+        width: 100%;
+        justify-content: center;
+      }
       .banner-contato p {
         font-size: 1.8rem;
       }
@@ -402,9 +439,15 @@
     <div class="logo-area">
       <h1>⚙️ DESMANCHE<br><span>AZ Acessórios</span></h1>
     </div>
-    <a class="atendimento-rapido" href="https://wa.me/5511921474407?text=Olá!%20Acessei%20o%20site%20do%20Desmanche%20AZ%20e%20gostaria%20de%20um%20atendimento." target="_blank">
-      <i class="fab fa-whatsapp"></i> (11) 92147-4407 · ATENDIMENTO
-    </a>
+    <!-- Botão de atendimento WhatsApp no início -->
+    <div class="atendimento-topo">
+      <a class="atendimento-rapido" href="https://wa.me/5511921474407?text=Olá!%20Acessei%20o%20site%20do%20Desmanche%20AZ%20e%20gostaria%20de%20atendimento." target="_blank">
+        <i class="fab fa-whatsapp"></i> (11) 92147-4407
+      </a>
+      <a class="atendimento-rapido" href="https://wa.me/5511921474407?text=Olá!%20Acessei%20o%20site%20do%20Desmanche%20AZ%20e%20quero%20falar%20com%20um%20vendedor" target="_blank" style="background: #25D366; color: white; border-color: #075e54;">
+        <i class="fab fa-whatsapp"></i> ATENDIMENTO
+      </a>
+    </div>
   </div>
 </header>
 
@@ -580,7 +623,6 @@
 <footer class="footer-simples">
   <p>⚙️ Desmanche AZ Acessórios · Peças automotivas de procedência</p>
   <p><i class="fab fa-whatsapp"></i> WhatsApp <strong>(11) 92147-4407</strong> · Atendimento rápido</p>
-  <p style="margin-top: 20px;"><i class="fas fa-map-marker-alt"></i> Rua das Oficinas, 123 - São Paulo/SP</p>
   <p style="margin-top: 20px;">© 2025 Desmanche AZ · Todos os direitos reservados</p>
 </footer>
 
