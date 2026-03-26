@@ -6,9 +6,34 @@ new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KTXTH99C');</script>
-<!-- End Google Tag Manager --><head>
+<!-- End Google Tag Manager -->
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17983467013"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-17983467013');
+
+      function gtag_report_conversion(url) {
+        var callback = function () {
+          if (typeof(url) !== 'undefined') {
+            window.open(url, '_blank');
+          }
+        };
+
+        gtag('event', 'conversion', {
+          'send_to': 'AW-17983467013/COLE_AQUI_O_LABEL_DA_CONVERSAO',
+          'event_callback': callback
+        });
+
+        return false;
+      }
+    </script>
 
     <meta property="og:title" content="Prime Autopeças" />
     <meta property="og:description" content="A maior variedade de peças originais com procedência garantida da região." />
@@ -526,7 +551,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTXTH99C" height="0" width="0" style="display:none"></iframe></noscript>
 
     <!-- WhatsApp Float -->
-    <a href="https://wa.me/5511921474407" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/5511921474407" class="whatsapp-float" target="_blank" onclick="return gtag_report_conversion('https://wa.me/5511921474407');">
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -538,7 +563,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <nav class="nav">
                     <a href="#sobre">Sobre</a>
                     <a href="#depoimentos">Depoimentos</a>
-                    <a href="https://wa.me/5511921474407" class="contact-btn" target="_blank">
+                    <a href="https://wa.me/5511921474407" class="contact-btn" target="_blank" onclick="return gtag_report_conversion('https://wa.me/5511921474407');">
                         <i class="fab fa-whatsapp"></i> Fale Conosco
                     </a>
                 </nav>
@@ -552,10 +577,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <h1 class="hero-title">A maior variedade de peças com procedência garantida</h1>
                     <p class="hero-description">Na Prime Autopeças você encontra as melhores marcas e os melhores preços para o seu veículo.</p>
                     <div class="hero-buttons">
-                        <a href="https://wa.me/5511921474407" class="btn-primary" target="_blank">
+                        <a href="https://wa.me/5511921474407" class="btn-primary" target="_blank" onclick="return gtag_report_conversion('https://wa.me/5511921474407');">
                             <i class="fab fa-whatsapp"></i> Solicitar Peça
                         </a>
-                        <a href="https://wa.me/5511921474407" class="btn-secondary" target="_blank">
+                        <a href="https://wa.me/5511921474407" class="btn-secondary" target="_blank" onclick="return gtag_report_conversion('https://wa.me/5511921474407');">
                             <i class="fab fa-whatsapp"></i> Falar com Especialista
                         </a>
                     </div>
@@ -573,7 +598,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <h2 class="about-title"><span>Sobre</span> a Prime Autopeças</h2>
                     <p class="about-text">A <strong>PRIME AUTO PECAS LTDA</strong> está no mercado desde <strong>20/08/2018</strong>, oferecendo peças e acessórios automotivos de qualidade. Localizada na <strong>Av. Dom Pedro II, 5033 - Jardim Montanhês, Belo Horizonte/MG</strong>.</p>
                     <p class="about-text">Atuamos no comércio de peças usadas e serviços de instalação de acessórios. Nossa equipe é altamente qualificada para garantir o melhor para seu veículo.</p>
-                    <a href="https://wa.me/5511921474407" class="btn-primary" style="display: inline-flex; margin-top: 1rem;" target="_blank">
+                    <a href="https://wa.me/5511921474407" class="btn-primary" style="display: inline-flex; margin-top: 1rem;" target="_blank" onclick="return gtag_report_conversion('https://wa.me/5511921474407');">
                         <i class="fab fa-whatsapp"></i> Conheça Nossas Peças
                     </a>
                 </div>
@@ -643,7 +668,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     </div>
                 </div>
 
-                <a href="https://wa.me/5511921474407" class="btn-whatsapp" target="_blank">
+                <a href="https://wa.me/5511921474407" class="btn-whatsapp" target="_blank" onclick="return gtag_report_conversion('https://wa.me/5511921474407');">
                     <i class="fab fa-whatsapp"></i> FALE CONOSCO NO WHATSAPP
                 </a>
 
@@ -666,7 +691,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <h3>Links Rápidos</h3>
                     <p><a href="#sobre">Sobre Nós</a></p>
                     <p><a href="#depoimentos">Depoimentos</a></p>
-                    <p><a href="https://wa.me/5511921474407">Fale Conosco</a></p>
+                    <p><a href="https://wa.me/5511921474407" onclick="return gtag_report_conversion('https://wa.me/5511921474407');">Fale Conosco</a></p>
                 </div>
                 <div class="footer-col">
                     <h3>Horário</h3>
