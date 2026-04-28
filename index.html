@@ -314,6 +314,67 @@
             object-fit: cover;
         }
 
+        /* Galeria de Motores */
+        .motors-gallery {
+            background-color: var(--branco);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .gallery-card {
+            background-color: var(--branco);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #E5E7EB;
+            transition: all 0.3s;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--laranja);
+            box-shadow: 0 20px 25px -5px rgba(255, 107, 0, 0.1);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .gallery-card:hover .gallery-image img {
+            transform: scale(1.05);
+        }
+
+        .gallery-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .gallery-info h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--laranja);
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-info p {
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
         /* Testimonials */
         .testimonials-grid {
             display: grid;
@@ -553,6 +614,7 @@
                 <a href="/" class="logo">PRIME AUTOPEÇAS</a>
                 <nav class="nav">
                     <a href="#sobre">Sobre</a>
+                    <a href="#motores">Motores</a>
                     <a href="#depoimentos">Depoimentos</a>
                     <a href="https://wa.me/5511967359209" class="contact-btn" target="_blank" onclick="return gtag_report_conversion('https://wa.me/5511967359209');">
                         <i class="fab fa-whatsapp"></i> Fale Conosco
@@ -594,7 +656,45 @@
                     </a>
                 </div>
                 <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=800" alt="Desmanche de carros brasileiros" loading="lazy">
+                    <img src="motorchev.jpg" alt="Motor Chevrolet" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <!-- Galeria de Motores (Nova Seção) -->
+        <section id="motores" class="motors-gallery section">
+            <h2 class="section-title">Nossos <span>Motores</span> em Destaque</h2>
+            <p class="section-subtitle">Peças de qualidade com procedência garantida para o seu veículo</p>
+            
+            <div class="gallery-grid">
+                <div class="gallery-card">
+                    <div class="gallery-image">
+                        <img src="motorchev.jpg" alt="Motor Chevrolet" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Motor Chevrolet</h3>
+                        <p>Alta performance e durabilidade para seu veículo Chevrolet.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-image">
+                        <img src="motorvolks.jpg" alt="Motor Volkswagen" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Motor Volkswagen</h3>
+                        <p>Potência e confiabilidade que a VW exige.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card">
+                    <div class="gallery-image">
+                        <img src="motoresprat.jpg" alt="Motores Prateados" loading="lazy">
+                    </div>
+                    <div class="gallery-info">
+                        <h3>Motores Prateados</h3>
+                        <p>Linha especial com os melhores preços do mercado.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -681,6 +781,7 @@
                 <div class="footer-col">
                     <h3>Links Rápidos</h3>
                     <p><a href="#sobre">Sobre Nós</a></p>
+                    <p><a href="#motores">Motores</a></p>
                     <p><a href="#depoimentos">Depoimentos</a></p>
                     <p><a href="https://wa.me/5511967359209" onclick="return gtag_report_conversion('https://wa.me/5511967359209');">Fale Conosco</a></p>
                 </div>
